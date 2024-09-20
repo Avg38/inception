@@ -1,5 +1,10 @@
 FROM debian:bullseye
 
-RUN apt update && apt upgrade && apt install -y mariadb
+RUN apt-get update && \
+	apt-get install -y mariadb
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY mariadb-init.sql conf/
+
+EXPOSE 3306
+
+CMD ["mysqld"]

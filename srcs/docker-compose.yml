@@ -1,14 +1,28 @@
-version: "3.8"
+version: "3.3"
 
 services:
   nginx:
     container_name: nginx
     build: requirements/nginx/
     ports:
-      - "8080:80"
-  # wordpress:
-  #   build: requirements/wordpress/
-  #   container_name: wp-php
-  # mariadb:
-  #   build: requirements/mariadb/
-  #   container_name: mariadb
+      - "80:80"
+    volumes:
+      - ./requirements/wordpress:/var/www/html
+    depends_on:
+      - wordpress
+
+  wordpress:
+    build: requirements/wordpress/
+    container_name: wp-php
+    volumes:
+      - ./requirements/wordpress:/var/www/html
+    env_file:
+      .env
+
+  mariadb:
+    build: requirements/mariadb/
+    container_name: mariadb
+    volumes:
+      - ./requirements/mariadb/data:var/lib/mysql
+    env_file:
+      .env
