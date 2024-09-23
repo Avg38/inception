@@ -1,9 +1,11 @@
 FROM debian:bullseye
 
 RUN apt-get update && \
-	apt-get install -y mariadb
+	apt-get install -y mariadb-server && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
-COPY mariadb-init.sql conf/
+COPY conf/mariadb-init.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 3306
 
