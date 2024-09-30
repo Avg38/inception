@@ -5,7 +5,7 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-COPY conf/mariadb-init.sql /docker-entrypoint-initdb.d/
+COPY conf/my.cnf /docker-entrypoint-initdb.d/
 
 EXPOSE 3306
 
