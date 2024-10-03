@@ -5,8 +5,8 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-COPY conf/mysqld.conf /docker-entrypoint-initdb.d/
+COPY ./conf/my.cnf /etc/mysql/mariadb.conf.d/.
+COPY ./conf/init.sql /etc/mysql/init.sql
+RUN chmod +x /conf/script.sh
 
-EXPOSE 3306
-
-CMD ["mysqld"]
+CMD ["./conf/script.sh"]

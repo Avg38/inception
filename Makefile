@@ -20,7 +20,7 @@ clean: down
 	docker system prune -a
 
 fclean: clean
-	docker colume rm $$(docker volume ls -q)
+	docker column rm $$(docker volume ls -q)
 
 status:
 	docker-compose -f $(COMPOSE_FILE) ps

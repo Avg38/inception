@@ -1,10 +1,9 @@
 FROM debian:bullseye
 
 RUN apt-get update && \
-	apt-get install -y php-fpm
+	apt-get install -y php-fpm php-mysqli\
+	curl
 
-COPY ./conf/wp-config.php /var/www/html
+COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/.
 
-EXPOSE 9000
-
-CMD ["php-fpm7.4", "-F"]
+CMD ["php-fpm8.2", "-F"]
