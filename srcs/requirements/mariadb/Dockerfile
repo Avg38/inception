@@ -5,8 +5,7 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-COPY ./conf/my.cnf /etc/mysql/mariadb.conf.d/.
-COPY ./conf/init.sql /etc/mysql/init.sql
-RUN chmod +x /conf/script.sh
+COPY ./conf/script.sh .
+RUN chmod +x script.sh
 
-CMD ["./conf/script.sh"]
+CMD ["./script.sh"]

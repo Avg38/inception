@@ -19,7 +19,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - ./requirements/wordpress/conf:/var/www/html
+      - wordpress:/var/www/html
     networks:
       - inception_network
     env_file:
@@ -28,14 +28,18 @@ services:
   mariadb:
     build: requirements/mariadb/
     container_name: mariadb
-    ports:
-      - "3306:3306"
     volumes:
-      - /home/avialle-/Documents/Inception/srcs/requirements/mariadb/conf:/var/lib/mysql:rw
+      - mariadb:/var/lib/mysql:rw
     networks:
       - inception_network
     env_file:
       .env
+
+volumes:
+  mariadb:
+    name: mariadb
+  wordpress:
+    name: wordpress
 
 networks:
   inception_network:

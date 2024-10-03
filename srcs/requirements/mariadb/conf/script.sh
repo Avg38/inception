@@ -1,9 +1,13 @@
 #!/bin/bash
-cd /var/www/html
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-chmod +x wp-cli.phar
-./wp-cli.phar core download --allow-root
-./wp-cli.phar config create --dbname=wordpress --dbuser=wpuser --dbpass=password --dbhost=mariadb --allow-root
-./wp-cli.phar core install --url=localhost --title=inception --admin_user=admin --admin_password=admin --admin_email=admin@admin.com --allow-root
 
-php-fpm8.2 -F
+service mariadb start
+sleep 5
+
+mariadb -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DB}\`;"
+mariadb -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+mariadb -e "GRANT ALL PRIVILEGES ON ${MYSQL_DB}.* TO \`${MYSQL_USER}\`@'%';"
+mariadb -e "FLUSH PRIVILEGES"
+
+mysqladmin -u root -p$MYSQL_ROOT_PASSWORD shutdown
+
+mysqld_safe --port=3306 --bind-address=0.0.0.0 --datadir='/var/lib/mysql'
