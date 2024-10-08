@@ -5,8 +5,11 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-COPY /conf/script.sh /
+COPY /conf/create_db.sh /
 
-RUN chmod +x script.sh
 
-ENTRYPOINT ["/script.sh"]
+RUN chmod +x create_db.sh
+
+ENTRYPOINT ["./create_db.sh"]
+
+CMD ["mysqld"]

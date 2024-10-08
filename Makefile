@@ -1,30 +1,36 @@
-COMPOSE_FILE=srcs/docker-compose.yml
+WP_DATA = /home/avialle-/data/wordpress
+DB_DATA = /home/avialle-/data/mariadb
+DOCKER_COMPOSE = docker-compose -f srcs/docker-compose.yml
 
 all: build up
 
 build:
-	docker-compose -f $(COMPOSE_FILE) build
+	$(DOCKER_COMPOSE) build
 
 up: build
-	docker-compose -f $(COMPOSE_FILE) up -d
+	@mkdir -p $(WP_DATA)
+	@mkdir -p $(DB_DATA)
+	$(DOCKER_COMPOSE) up -d
 
 down:
-	docker-compose -f $(COMPOSE_FILE) down
+	$(DOCKER_COMPOSE) down
 
-restart: down up
+start:
+	$(DOCKER_COMPOSE) start
 
-logs:
-	docker-compose -f $(COMPOSE_FILE) logs -f
+stop:
+	$(DOCKER_COMPOSE) stop
 
 clean: down
-	docker system prune -a
+	@docker stop $$(docker ps -qa) || true
+	@docker rm $$(docker ps -qa) || true
+	@docker rmi -f $$(docker images -qa) || true
+	@rm -rf $(WP_DATA) || true
+	@rm -rf $(DB_DATA) || true
 
-fclean: clean
-	@if [ -n "$$(docker volume ls -q)" ]; then docker volume rm $$(docker volume ls -q); fi
+re: clean up
 
-status:
-	docker-compose -f $(COMPOSE_FILE) ps
+prune: clean
+	@docker system prune -a --volumes -f
 
-re: fclean up
-
-.PHONY: build up down restart logs clean fclean status re
+.PHONY: build up down clean prune re

@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   nginx:
     image: nginx
@@ -8,7 +6,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress:/var/www/html
+      - wordpress:/var/www/wordpress
     networks:
       - inception_network
     depends_on:
@@ -20,12 +18,13 @@ services:
     build: requirements/wordpress/
     container_name: wp-php
     volumes:
-      - wordpress:/var/www/html
+      - wordpress:/var/www/wordpress
     networks:
       - inception_network
     env_file:
       .env
-    depends_on: mariadb
+    depends_on: 
+      - mariadb
     restart: always
 
   mariadb:
@@ -46,14 +45,14 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mariadb/data
+      device: /home/avialle-/data/mariadb
       o: bind
   wordpress:
     name: wordpress_data
     driver: local
     driver_opts:
       type: none
-      device: /home/wordpress/data
+      device: /home/avialle-/data/wordpress
       o: bind
 
 networks:
