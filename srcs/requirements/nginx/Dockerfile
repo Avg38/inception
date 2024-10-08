@@ -14,8 +14,8 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 COPY /conf/nginx.conf /etc/nginx/nginx.conf
 
-RUN mkdir -p /var/www/html && \
-	chown -R www-data:www-data /var/www/html
+RUN mkdir -p /var/www/wordpress && \
+	chown -R www-data:www-data /var/www/wordpress
 
 EXPOSE 80 443
 
