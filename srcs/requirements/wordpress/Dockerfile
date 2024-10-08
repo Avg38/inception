@@ -1,9 +1,12 @@
 FROM debian:bullseye
 
 RUN apt-get update && \
-	apt-get install -y php-fpm php-mysqli\
+	apt-get install -y php-fpm php-mysqli mariadb-client\
 	curl
 
-COPY ./conf/wp-config.sh /etc/php/7.4/fpm/pool.d/.
+COPY /conf/wp-config.sh /
 
-CMD ["php-fpm7.4", "-F"]
+RUN chmod +x wp-config.sh
+
+ENTRYPOINT ["./wp-config.sh"]
+# CMD ["php-fpm7.4", "-F"]

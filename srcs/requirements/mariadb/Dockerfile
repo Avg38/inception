@@ -5,7 +5,8 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-COPY ./conf/script.sh .
+COPY /conf/script.sh /
+
 RUN chmod +x script.sh
 
-CMD ["./script.sh"]
+ENTRYPOINT ["/script.sh"]
