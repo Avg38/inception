@@ -1,8 +1,8 @@
 FROM debian:bullseye
 
-RUN apt-get update && \
-	apt-get install -y nginx && \
-	apt-get install -y openssl && \
+RUN apt-get update &&\
+	apt-get install -y nginx &&\
+	apt-get install -y openssl &&\
 	rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/nginx/ssl
@@ -14,7 +14,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 COPY /conf/nginx.conf /etc/nginx/nginx.conf
 
-RUN mkdir -p /var/www/wordpress && \
+RUN mkdir -p /var/www/wordpress &&\
 	chown -R www-data:www-data /var/www/wordpress
 
 EXPOSE 80 443
