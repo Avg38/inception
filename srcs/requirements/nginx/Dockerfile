@@ -1,22 +1,16 @@
 FROM debian:bullseye
 
-RUN apt-get update &&\
-	apt-get install -y nginx &&\
-	apt-get install -y openssl &&\
-	rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get upgrade -y &&\
+	apt-get install -y nginx openssl
 
 RUN mkdir -p /etc/nginx/ssl
 
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-	-keyout /etc/nginx/ssl/inception.key \
-	-out /etc/nginx/ssl/inception.crt \
-	-subj "/C=FR/ST=Lyon/L=Lyon/O=42/CN=avialle-.42.fr"
+RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout \
+	/etc/nginx/ssl/inception.key -subj "/C=FR/ST=ARA/L=LYON/O=42/OU=42/CN=avialle-.42.fr/UID=avialle-42"
 
 COPY /conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/www/wordpress &&\
 	chown -R www-data:www-data /var/www/wordpress
-
-EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]

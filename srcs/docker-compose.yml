@@ -14,7 +14,7 @@ services:
     restart: always
 
   wordpress:
-    image: wordpress
+    image: wordpress:user
     build: requirements/wordpress/
     container_name: wp-php
     volumes:
@@ -28,7 +28,7 @@ services:
     restart: always
 
   mariadb:
-    image: mariadb
+    image: mariadb:user
     build: requirements/mariadb/
     container_name: mariadb
     volumes:
